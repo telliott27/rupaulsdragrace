@@ -1,16 +1,16 @@
 ,,,Predicted,Predicted,Predicted,Predicted,Predicted,mean
 Model,,,GNB,NN,RFC,RFR,SVC,
 Name,Place,Season,,,,,,
-Aja,0.0,9,4,9,1,4,3,4.2
-Alexis Michelle,0.0,9,4,1,1,5,5,3.2
-Charlie Hides,0.0,9,3,8,12,13,13,9.8
-Eureka,0.0,9,1,12,1,2,1,3.4
-Farrah Moan,0.0,9,4,9,1,3,3,4.0
-Jaymes Mansfield,0.0,9,1,12,1,8,1,4.6
-Kimora Blac,0.0,9,4,1,1,11,5,4.4
-Nina Bo'Nina Brown,0.0,9,4,1,1,7,5,3.6
-Peppermint,0.0,9,4,1,12,12,5,6.8
-Sasha Velour,0.0,9,4,1,1,9,5,4.0
-Shea Coulee,0.0,9,4,1,1,10,5,4.2
-Trinity Taylor,0.0,9,4,1,1,6,5,3.4
-Valentina,0.0,9,4,9,1,1,5,4.0
+Aja,0.0,9,1,1,1,9,3,3.0
+Alexis Michelle,0.0,9,1,11,1,6,3,4.4
+Charlie Hides,0.0,9,1,9,1,1,1,2.6
+Eureka,0.0,9,12,4,1,13,12,8.4
+Farrah Moan,0.0,9,1,1,1,8,3,2.8
+Jaymes Mansfield,0.0,9,12,4,1,12,12,8.2
+Kimora Blac,0.0,9,1,4,1,1,3,2.0
+Nina Bo'Nina Brown,0.0,9,1,11,1,9,3,5.0
+Peppermint,0.0,9,1,9,1,4,1,3.2
+Sasha Velour,0.0,9,1,4,1,11,3,4.0
+Shea Coulee,0.0,9,1,4,1,3,3,2.4
+Trinity Taylor,0.0,9,1,11,1,7,3,4.6
+Valentina,0.0,9,1,1,1,5,3,2.2
