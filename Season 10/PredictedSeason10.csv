@@ -1,16 +1,16 @@
 ,Name,Place,Season,Predicted,Predicted,Predicted,Predicted,Predicted,mean,PredPlace
 Model,,,,GNB,NN,RFC,RFR,SVC,,
-0,Aquaria,0.0,10,1,8,4,4,12,5.8,10
-1,Asia O'Hara,0.0,10,1,1,1,2,1,1.2,1
-2,Blair St. Clair,0.0,10,1,8,4,4,12,5.8,10
-3,Dusty Ray Bottoms,0.0,10,1,8,4,10,3,5.2,9
-4,Eureka O'Hara,0.0,10,13,6,4,13,10,9.2,13
-5,Kalorie Karbdashian-Williams,0.0,10,13,6,4,13,10,9.2,13
-6,Kameron Michaels,0.0,10,1,1,4,11,3,4.0,4
-7,Mayhem Miller,0.0,10,1,1,1,2,1,1.2,1
-8,Miz Cracker,0.0,10,1,1,1,1,3,1.4,3
-9,Monet X Change,0.0,10,1,8,4,6,3,4.4,6
-10,Monique Heart,0.0,10,1,1,4,11,3,4.0,4
-11,The Vixen,0.0,10,1,8,4,8,3,4.8,8
-12,Vanessa Vanjie Mateo,0.0,10,1,8,4,9,12,6.8,12
-13,Yuhua Hamasaki,0.0,10,1,8,4,6,3,4.4,6
+0,Aquaria,0.0,10,1,5,13,7,8,6.8,9
+1,Asia O'Hara,0.0,10,1,10,3,3,14,6.2,8
+2,Blair St. Clair,0.0,10,1,1,3,4,5,2.8,4
+3,Dusty Ray Bottoms,0.0,10,11,6,3,5,3,5.6,5
+4,Eureka O'Hara,0.0,10,13,10,14,14,8,11.8,14
+5,Kalorie Karbdashian-Williams,0.0,10,13,8,12,11,6,10.0,13
+6,Kameron Michaels,0.0,10,1,10,3,8,8,6.0,6
+7,Mayhem Miller,0.0,10,1,1,1,1,1,1.0,1
+8,Miz Cracker,0.0,10,1,4,3,2,3,2.6,2
+9,Monet X Change,0.0,10,1,10,3,12,8,6.8,9
+10,Monique Heart,0.0,10,1,10,3,8,8,6.0,6
+11,The Vixen,0.0,10,1,9,3,13,8,6.8,9
+12,Vanessa Vanjie Mateo,14.0,10,11,6,2,10,6,7.0,12
+13,Yuhua Hamasaki,0.0,10,1,1,3,6,2,2.6,2
