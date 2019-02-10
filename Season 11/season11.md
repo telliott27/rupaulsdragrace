@@ -490,7 +490,7 @@ Final Predictions
 
 The final predicted score is based on the average of predicted places for each algorithm.
 
-As of now, Yvie Oddly is predicted to take home the crown, with Ra'jah O'Hara, Honey Davenport, and Mercedes Iman Diamond rounding out the top four. Nina West is predicted to go home first.
+As of now, Yvie Oddly is predicted to take home the crown, with A'Keria Chanel Davenport, Honey Davenport, and Mercedes Iman Diamond rounding out the top four. Nina West is predicted to go home first.
 
 ``` r
 s11.results<-s11.results %>% 
