@@ -352,7 +352,7 @@ s11.results %>%
 
 ```{r s11-results, fig.width=10, fig.height=10, fig.retina=4, warning=FALSE, message=FALSE}
 df<-s11.results %>% 
-  mutate(filename=paste0("queens/",filename,".jpg")) %>% 
+  mutate(filename=paste0("../queens/",filename,".jpg")) %>% 
   gather(model,rank,Place:`Predicted Rank`) %>% 
   filter(model!="Average") %>% 
   mutate(model=factor(model, levels = c("Place", "SVM", "GNB", "RFC", "RFR", "NN", "Predicted Rank")),
