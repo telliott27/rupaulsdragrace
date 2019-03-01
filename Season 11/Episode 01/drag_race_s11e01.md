@@ -1,51 +1,15 @@
----
-title: "Drag Race Season 11 Episode 1"
-author: Thomas Elliott
-date: "`r format(Sys.Date(), '%B %e, %Y')`"
-output: github_document
----
+Drag Race Season 11 Episode 1
+================
+Thomas Elliott
+March 1, 2019
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.retina=4, warning=TRUE)
-
-library(tidyverse)
-library(kernlab)
-library(e1071)
-library(randomForest)
-library(neuralnet)
-library(ggimage)
-
-data.df<-read_csv("drag_race.csv")
-
-compareRanks<-function(x, y) {
-  #' x = actual place
-  #' y = predicted place
-  actual<-sum((x-y)^2)
-  worst<-sum((sort(x)-sort(x,TRUE))^2)
-  1-2*(actual/worst)
-}
-
-setXY<-function(x,y,n) {
-  y = y - round((n-1)/3)*0.8
-  if( n %% 3 == 2 ) {
-    x<-x - 0.33
-  }
-  else if ( n %% 3 == 0 ) {
-    x<-x + 0.33
-  }
-  c(x,y)
-}
-
-set.seed(11)
-```
-
-Beginning with season 8 of RuPaul's Drag Race, I began using machine learning algorithms to try to predict the outcome of the season. I wrote the script in Python, and for the past three seasons I've run the script to try to predict the outcomes of each season. Season 11 of Drag Race begins in March, 2018, and for this season I decided to transition to using R for my predictions. In recent years, packages supporting machine learning in R has proliferated, and since I use R in my day job, I wanted to use it for this project as well. 
+Beginning with season 8 of RuPaul's Drag Race, I began using machine learning algorithms to try to predict the outcome of the season. I wrote the script in Python, and for the past three seasons I've run the script to try to predict the outcomes of each season. Season 11 of Drag Race begins in March, 2018, and for this season I decided to transition to using R for my predictions. In recent years, packages supporting machine learning in R has proliferated, and since I use R in my day job, I wanted to use it for this project as well.
 
 For those not familiar with Rupaul’s Drag Race, it is a reality competition show, similar to America’s Next Top Model or Project Runway, in which 9-15 (it varies each season) drag queens must succeed at weekly challenges that test their Charisma, Uniqueness, Nerve, and Talent to become America’s Next Drag Superstar. In recent seasons, this has come with a cash prize of 100K dollars, along with various other perks. The weekly challenges take various forms, but usually include sewing challenges, in which queens must make themed garments out of unusual materials, acting challenges, in which queens act out humorous (and often irreverent) scenes, and every season since season 2 has included the Snatch Game, a parody of the 1970s TV game show Match Game in which queens must dress up and perform celebrity impressions as panelists on the Snatch Game, with guest judges for the week serving as contestents. The end of every episode, regardless of challenge, begins with a runway walk in which the queens must walk the runway in a themed look and then the queens are critiqued by the judges for their performance in the challenge as well as their runway look. The two worst performing queens for the week must then lipsync for their life, and whoever impresses Rupaul the most with their lipsync gets to stay, and the other queen must sashay away.
 
 For those not familiar with machine learning, it is a family (or, really families) of algorithms for exploring and predicting data. There are two broad groups of families: supervised and unsupervised. Unsupervised learning algorithms are used when you have data you would like to classify without knowing what the right answers are before hand. Principal components analysis and K-means clustering are examples of unsupervised learning algorithms. Supervised algorithms are used when you already know the answer for at least some of your data. These algorithms work by feeding in a set of features (independent variables) and the labels, or answers, and the algorithm works to figure out how to get from the features to the labels. One of the biggest differences between standard statistical analysis and machine learning is that in standard statistical analysis, the model is the most important part of the process – understanding how it gets from the independent variables to the predicted dependent variable, and the relationship between these variables. In machine learning, the model is usually not important at all, and is treated as a black box. Instead, machine learning focuses on how well the model predicts the labels.
 
-```{r}
+``` r
 all.seasons<-data.df %>% 
   replace_na(list(Wins=0, Highs=0, Lows=0, Lipsyncs=0))
 train.df<-all.seasons %>% 
@@ -69,8 +33,8 @@ season11<-season11 %>%
 the.model<-Place ~ Season + Age + Black + White + POC + PlusSize + Wins + Highs + Lows + Lipsyncs
 ```
 
-# Meet the Queens
-
+Meet the Queens
+===============
 
 Let’s begin the challenge by meeting our contestants. First up is **Support Vector Machines**, a classifier with a pretty intuitive algorithm. Imagine you plot points on a two-dimensional graph. Support vector machines (SVM) attempts to separate out the groups defined by the labels using a line or curve that maximizes the distance between the dividing line and the closest points. If you have more than two features (as is often the case), the same thing happens but in a higher dimensional space.
 
@@ -82,45 +46,46 @@ The fourth contestant is the **Random Forest Regressor**, also from the Haus of 
 
 Our final contestant is **Neural Network**. Neural networks are a family of methods that roughly simulate connections between neurons in a biological brain. The neural network used here consists of neurons that take some number of values as inputs, applies weights to these values (that can be adjusted in the learning process), then applies these values to a logistic function to produce an output between 0 and 1. Neural networks consist of two or more layers of neurons (an input layer, an output layer, and zero or more hidden layers). The neural network I use here has one hidden layer consisting of three neurons.
 
-# The Mini Challenge
+The Mini Challenge
+==================
 
 This week’s mini challenge will require each contestant to study the outcomes of seasons 1 through 9 and then predict who placed where in season 10. In machine learning parlance, seasons 1-9 are the training set, the data on which the algorithms learn their prediction models, and season 10 is the test set, the data the algorithms never saw when they were learning to see how well they do at predicting totally new data. I use 10 features:
 
-1. Season the queen appeared in
-2. Age of the queen
-3. Whether the queen is Black
-4. Whether the queen is white
-5. Whether the queen is a non-Black person of color
-6. Whether the queen is Plus Size
-7. The total number of main challenges a queen won during the season
-8. The total number of times a queen was among the top queens for the challenge, but did not win the challenge
-9. The total number of times a queen was among the worst queens for the challenge, but did not lip-sync
+1.  Season the queen appeared in
+2.  Age of the queen
+3.  Whether the queen is Black
+4.  Whether the queen is white
+5.  Whether the queen is a non-Black person of color
+6.  Whether the queen is Plus Size
+7.  The total number of main challenges a queen won during the season
+8.  The total number of times a queen was among the top queens for the challenge, but did not win the challenge
+9.  The total number of times a queen was among the worst queens for the challenge, but did not lip-sync
 10. The total number of times a queen had to lip-sync for her life (including the lip-sync that she sashayed away from)
 
 For all four algorithms, I rank the predicted ranks, as some algorithms did not predict any queens to place first. Ranking the predicted ranks ensures that at least one queen will be predicted to come in first. Below shows the code and results of the mini-challenge.
 
-
-
-# The Maxi Challenge: Predicting Season 11
+The Maxi Challenge: Predicting Season 11
+========================================
 
 The main challenge is to predict the outcome of season 11 of RuPaul's drag race. To do so, we'll use the following features in our models:
 
-1. Season the queen appeared in
-2. Age of the queen
-3. Whether the queen is Black
-4. Whether the queen is white
-5. Whether the queen is a non-Black person of color
-6. Whether the queen is Plus Size
-7. The total number of main challenges a queen won during the season
-8. The total number of times a queen was among the top queens for the challenge, but did not win the challenge
-9. The total number of times a queen was among the worst queens for the challenge, but did not lip-sync
+1.  Season the queen appeared in
+2.  Age of the queen
+3.  Whether the queen is Black
+4.  Whether the queen is white
+5.  Whether the queen is a non-Black person of color
+6.  Whether the queen is Plus Size
+7.  The total number of main challenges a queen won during the season
+8.  The total number of times a queen was among the top queens for the challenge, but did not win the challenge
+9.  The total number of times a queen was among the worst queens for the challenge, but did not lip-sync
 10. The total number of times a queen had to lip-sync for her life (including the lip-sync that she sashayed away from)
 
-For all four algorithms, I rank the predicted ranks, as some algorithms did not predict any queens to place first. Ranking the predicted ranks ensures that at least one queen will be predicted to come in first. 
+For all four algorithms, I rank the predicted ranks, as some algorithms did not predict any queens to place first. Ranking the predicted ranks ensures that at least one queen will be predicted to come in first.
 
-## Support Vector Machines
+Support Vector Machines
+-----------------------
 
-```{r}
+``` r
 s11.svm<-ksvm(the.model,
               data=pre11,
               kernal="rbfdot")
@@ -130,24 +95,28 @@ s11.results<-s11.results %>%
   mutate(SVM=rank(predict11,ties.method = "min"))
 ```
 
+Gaussian Naive Bayes
+--------------------
 
-## Gaussian Naive Bayes
-
-```{r}
+``` r
 s11.gnb<-naiveBayes(the.model,
               data=pre11.factor,
               laplace = 0)
 predict11<-predict(s11.gnb,
                    season11)
+```
+
+    ## Warning in data.matrix(newdata): NAs introduced by coercion
+
+``` r
 s11.results<-s11.results %>% 
   mutate(GNB=rank(predict11,ties.method = "min"))
 ```
 
+Random Forest Classifier
+------------------------
 
-
-## Random Forest Classifier
-
-```{r}
+``` r
 s11.rfc<-randomForest(the.model,
               data=pre11.factor,
               ntree=100)
@@ -157,11 +126,10 @@ s11.results<-s11.results %>%
   mutate(RFC=rank(predict11,ties.method = "min"))
 ```
 
+Random Forest Regressor
+-----------------------
 
-
-## Random Forest Regressor
-
-```{r}
+``` r
 s11.rfr<-randomForest(the.model,
               data=pre11,
               ntree=100)
@@ -171,12 +139,10 @@ s11.results<-s11.results %>%
   mutate(RFR=rank(predict11,ties.method = "min"))
 ```
 
+Neural Networks
+---------------
 
-
-## Neural Networks
-
-
-```{r}
+``` r
 s11.nn<-neuralnet(the.model,
               data=pre11,
               hidden=3,
@@ -188,15 +154,14 @@ s11.results<-s11.results %>%
   mutate(NN=rank(predict11,ties.method = "min"))
 ```
 
-
-
-## Final Predictions
+Final Predictions
+-----------------
 
 The final predicted score is based on the average of predicted places for each algorithm.
 
-With one episode down, the algorithms are predicting our top 4 to be A'Keria, Mercedes, Brooke Lynn, and Honey. The algorithms correctly guessed that Soju would be going home first, and predict that next week Nina West will be sashaying away. 
+With one episode down, the algorithms are predicting our top 4 to be A'Keria, Mercedes, Brooke Lynn, and Honey. The algorithms correctly guessed that Soju would be going home first, and predict that next week Nina West will be sashaying away.
 
-```{r}
+``` r
 s11.results<-s11.results %>% 
   mutate(Average=(SVM+GNB+RFC+RFR+NN)/5,
          `Predicted Rank`=rank(Average, ties.method = "min"))
@@ -206,9 +171,25 @@ s11.results %>%
   knitr::kable()
 ```
 
+| Name                     |  Place|  SVM|  GNB|  RFC|  RFR|   NN|  Average|  Predicted Rank|
+|:-------------------------|------:|----:|----:|----:|----:|----:|--------:|---------------:|
+| A'keria Chanel Davenport |     NA|    2|    1|    1|    2|    3|      1.8|               1|
+| Mercedes Iman Diamond    |     NA|    1|    1|    4|    3|    2|      2.2|               2|
+| Brooke Lynn Hytes        |     NA|    9|    8|    1|    1|    1|      4.0|               3|
+| Yvie Oddly               |     NA|    3|    1|    4|    8|    8|      4.8|               4|
+| Vanessa Vanjie Mateo     |     NA|   10|    1|    4|    5|    5|      5.0|               5|
+| Honey Davenport          |     NA|    5|    1|    4|    7|    9|      5.2|               6|
+| Ra'jah O'Hara            |     NA|    6|    1|    4|    6|   10|      5.4|               7|
+| Plastique Tiara          |     NA|   11|    1|   13|    4|    4|      6.6|               8|
+| Shuga Cain               |     NA|    4|    8|    3|   10|   14|      7.8|               9|
+| Nina West                |     NA|   12|    8|    4|    9|   11|      8.8|              10|
+| Silky Nutmeg Ganache     |     NA|    8|    8|    4|   11|   15|      9.2|              11|
+| Kahanna Montrese         |     NA|    7|    8|   13|   14|    6|      9.6|              12|
+| Ariel Versace            |     NA|   13|    8|    4|   12|   12|      9.8|              13|
+| Scarlet Envy             |     NA|   13|    8|    4|   12|   12|      9.8|              13|
+| Soju                     |     15|   15|    8|   15|   15|    7|     12.0|              15|
 
-
-```{r s11-results, fig.width=10, fig.height=10, fig.retina=4, warning=FALSE, message=FALSE}
+``` r
 df<-s11.results %>% 
   mutate(filename=paste0("../queens/",filename,".jpg")) %>% 
   gather(model,rank,Place:`Predicted Rank`) %>% 
@@ -244,6 +225,10 @@ df %>%
                      labels=c("Actual Place", "SVM", "GNB", "RFC", "RFR", "NN", "Predicted Place")) +
   scale_y_continuous(name="Place", breaks=c(1:15), labels=c(15:1)) +
   labs(title="RuPaul's Drag Race Season 11")
-ggsave("season11_results.png", width=10, height=10, dpi=400)
 ```
 
+<img src="drag_race_s11e01_files/figure-markdown_github/s11-results-1.png" width="960" />
+
+``` r
+ggsave("season11_results.png", width=10, height=10, dpi=400)
+```
