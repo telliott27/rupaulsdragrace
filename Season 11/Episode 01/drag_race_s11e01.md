@@ -141,7 +141,7 @@ Final Predictions
 
 The final predicted score is based on the average of predicted places for each algorithm.
 
-With one episode down, the algorithms are predicting our top 4 to be A'Keria, Mercedes, Brooke Lynn, and Honey. The algorithms correctly guessed that Soju would be going home first, and predict that next week Nina West will be sashaying away.
+With one episode down, the algorithms are predicting our top 4 to be A'Keria, Mercedes, Brooke Lynn, and Yvie. The algorithms correctly guessed that Soju would be going home first, and predict that next week Nina West will be sashaying away.
 
 ``` r
 s11.results<-s11.results %>% 
