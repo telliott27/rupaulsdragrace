@@ -82,25 +82,6 @@ The fourth contestant is the **Random Forest Regressor**, also from the Haus of 
 
 Our final contestant is **Neural Network**. Neural networks are a family of methods that roughly simulate connections between neurons in a biological brain. The neural network used here consists of neurons that take some number of values as inputs, applies weights to these values (that can be adjusted in the learning process), then applies these values to a logistic function to produce an output between 0 and 1. Neural networks consist of two or more layers of neurons (an input layer, an output layer, and zero or more hidden layers). The neural network I use here has one hidden layer consisting of three neurons.
 
-# The Mini Challenge
-
-This week’s mini challenge will require each contestant to study the outcomes of seasons 1 through 9 and then predict who placed where in season 10. In machine learning parlance, seasons 1-9 are the training set, the data on which the algorithms learn their prediction models, and season 10 is the test set, the data the algorithms never saw when they were learning to see how well they do at predicting totally new data. I use 10 features:
-
-1. Season the queen appeared in
-2. Age of the queen
-3. Whether the queen is Black
-4. Whether the queen is white
-5. Whether the queen is a non-Black person of color
-6. Whether the queen is Plus Size
-7. The total number of main challenges a queen won during the season
-8. The total number of times a queen was among the top queens for the challenge, but did not win the challenge
-9. The total number of times a queen was among the worst queens for the challenge, but did not lip-sync
-10. The total number of times a queen had to lip-sync for her life (including the lip-sync that she sashayed away from)
-
-For all four algorithms, I rank the predicted ranks, as some algorithms did not predict any queens to place first. Ranking the predicted ranks ensures that at least one queen will be predicted to come in first. Below shows the code and results of the mini-challenge.
-
-
-
 # The Maxi Challenge: Predicting Season 11
 
 The main challenge is to predict the outcome of season 11 of RuPaul's drag race. To do so, we'll use the following features in our models:
