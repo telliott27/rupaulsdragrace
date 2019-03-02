@@ -141,7 +141,7 @@ Final Predictions
 
 The final predicted score is based on the average of predicted places for each algorithm.
 
-With one episode down, the algorithms are predicting our top 4 to be A'Keria, Mercedes, Brooke Lynn, and Yvie. The algorithms correctly guessed that Soju would be going home first, and predict that next week Nina West will be sashaying away.
+With one episode down, the algorithms are predicting our top 4 to be A'Keria, Mercedes, Brooke Lynn, and Yvie. The algorithms correctly guessed that Soju would be going home first, and predict a double elimination next week: both Ariel Versace and Scarlet Envy are predicted to go home next.
 
 ``` r
 s11.results<-s11.results %>% 
@@ -203,6 +203,12 @@ df %>%
   ggplot(aes(x=x, y=y)) +
   geom_image(aes(image=filename)) +
   theme_bw() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major.y = element_line(color=season.colors),
+        axis.text.y = element_text(color="black", size=12),
+        axis.ticks.y = element_line(color=season.colors)) +
   scale_x_continuous(name=NULL, breaks=c(1:7), 
                      labels=c("Actual Place", "SVM", "GNB", "RFC", "RFR", "NN", "Predicted Place")) +
   scale_y_continuous(name="Place", breaks=c(1:15), labels=c(15:1)) +
