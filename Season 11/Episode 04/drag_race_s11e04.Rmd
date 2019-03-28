@@ -64,7 +64,7 @@ the.model<-Place ~ Season + Age + Black + White + POC + PlusSize + Wins + Highs 
 
 # Episode 4: Why?
 
-[This season](../Episode /drag_race_s11e01.md) I re-introduced my machine learning algorithms for predicting the outcomes of Season 11 of RuPaul's Drag Race.
+[This season](../Episode 01/drag_race_s11e01.md) I re-introduced my machine learning algorithms for predicting the outcomes of Season 11 of RuPaul's Drag Race.
 
 This week the queens performed in a rusical number. Previous seasons have done a Kardiashian musical and a pharmaceutical-themed musical. This season, for some reason, the musical was a mash up of Grease and the current president. It felt very tone deaf, despite focusing on the women associated with the administration it was still making light of something that continues to cause a lot of people a lot of real harm. Regardless, the top three of the week included Yvie Oddly for her portrayal of Kelly Anne Conway, Brooke Lynn Hytes for Ivana Trump, and Silky Nutmeg Ganache for Oprah, with Silky taking the win (she looked just like Oprah it was impressive). Ra'jah, Mercedes, and Vanjie were in the bottom, with Miss Vanjie being declared safe from having to lip sync for her life. Ultimately, Mercedes was asked to sashay away, the optics of which weren't great: sending the Muslim queen home during a Trump challenge? After Mercedes already faced a lot of ignorance from the other queens about her religion, too. Overall, this was not a fun episode to watch.
 

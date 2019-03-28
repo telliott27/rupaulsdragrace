@@ -5,7 +5,7 @@ March 28, 2019
 
 # Episode 4: Why?
 
-[This season](../Episode%20/drag_race_s11e01.md) I re-introduced my
+[This season](../Episode%2001/drag_race_s11e01.md) I re-introduced my
 machine learning algorithms for predicting the outcomes of Season 11 of
 RuPaul’s Drag Race.
 
