@@ -1,0 +1,213 @@
+---
+title: "Drag Race Season 11 Episode 6"
+author: Thomas Elliott
+date: "`r format(Sys.Date(), '%B %e, %Y')`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.retina=4, warning=TRUE)
+
+library(tidyverse)
+library(kernlab)
+library(e1071)
+library(randomForest)
+library(neuralnet)
+library(ggimage)
+
+season.colors<-c("orange" = "#F7830A",
+                 "teal" = "#2CC9B5", 
+                 "yellow" = "#FAEE0D",
+                 "pink" = "#F60075")
+
+data.df<-read_csv("drag_race.csv")
+
+compareRanks<-function(x, y) {
+  #' x = actual place
+  #' y = predicted place
+  actual<-sum((x-y)^2, na.rm = TRUE)
+  worst<-sum((sort(x)-sort(x,TRUE))^2, na.rm = TRUE)
+  1-2*(actual/worst)
+}
+
+setXY<-function(x,y,n) {
+  y = y - round((n-1)/3)*0.8
+  if( n %% 3 == 2 ) {
+    x<-x - 0.33
+  }
+  else if ( n %% 3 == 0 ) {
+    x<-x + 0.33
+  }
+  c(x,y)
+}
+
+set.seed(11)
+```
+
+```{r, include=FALSE}
+# generating training and testing sets
+all.seasons<-data.df %>% 
+  replace_na(list(Wins=0, Highs=0, Lows=0, Lipsyncs=0))
+pre11<-all.seasons %>% 
+  filter(Season<11)
+pre11.factor<-pre11 %>% 
+  mutate(Place=factor(Place))
+season11<-all.seasons %>% 
+  filter(Season==11)
+s11.results<-season11 %>% 
+  select(Name,filename,Place)
+season11<-season11 %>% 
+  select(Name,Place,Season,Age,Black,White,POC,PlusSize,Wins,Highs,Lows,Lipsyncs)
+
+the.model<-Place ~ Season + Age + Black + White + POC + PlusSize + Wins + Highs + Lows + Lipsyncs
+```
+
+# Episode 6: Drag Olympics
+
+[This season](../Episode 01/drag_race_s11e01.md) I re-introduced my machine learning algorithms for predicting the outcomes of Season 11 of RuPaul's Drag Race.
+
+This week's episode was the best of the season so far. It started with a mini-challenge with special guest Love Connie leading a "galisthenics" workout class, which was very entertaining. For the maxi challenge, the queens split into two groups to compete in the drag olympics, which took the form of a choreographed dance involving fanography, voguing, and shablam. The dances were set to dance mixes featuring famous quotes from previous seasons of drag race. A'keria won her first challenge for both her performance and being team captain for the winning team. Ra'jah and Scarlet had to lip-sync for their lives, and despite a strong lip-sync performance, Scarlet was asked to sashay away.
+
+Incorporating this week's performances into the data, the algorithms have new predictions for the season:
+
+## Support Vector Machines
+
+```{r}
+s11.svm<-ksvm(the.model,
+              data=pre11,
+              kernal="rbfdot")
+predict11<-predict(s11.svm,
+                   season11)
+s11.results<-s11.results %>% 
+  mutate(SVM=rank(predict11,ties.method = "min"))
+```
+
+
+## Gaussian Naive Bayes
+
+```{r}
+s11.gnb<-naiveBayes(the.model,
+              data=pre11.factor,
+              laplace = 0)
+predict11<-predict(s11.gnb,
+                   season11)
+s11.results<-s11.results %>% 
+  mutate(GNB=rank(predict11,ties.method = "min"))
+```
+
+
+
+## Random Forest Classifier
+
+```{r}
+s11.rfc<-randomForest(the.model,
+              data=pre11.factor,
+              ntree=100)
+predict11<-predict(s11.rfc,
+                   season11)
+s11.results<-s11.results %>% 
+  mutate(RFC=rank(predict11,ties.method = "min"))
+```
+
+
+
+## Random Forest Regressor
+
+```{r}
+s11.rfr<-randomForest(the.model,
+              data=pre11,
+              ntree=100)
+predict11<-predict(s11.rfr,
+                   season11)
+s11.results<-s11.results %>% 
+  mutate(RFR=rank(predict11,ties.method = "min"))
+```
+
+
+
+## Neural Networks
+
+
+```{r}
+s11.nn<-neuralnet(the.model,
+              data=pre11,
+              hidden=3,
+              act.fct = "logistic",
+              algorithm = "rprop+")
+predict11<-predict(s11.nn,
+                   season11)
+s11.results<-s11.results %>% 
+  mutate(NN=rank(predict11,ties.method = "min"))
+```
+
+
+
+## Final Predictions
+
+The final predicted score is based on the average of predicted places for each algorithm.
+
+With her win this episode, A'keria steals fourth place from Silky. Meanwhile, Shuga slips and is predicted to go home next, probably because of her lack-luster performance so far. 
+
+
+```{r}
+s11.results<-s11.results %>% 
+  mutate(Average=(SVM+GNB+RFC+RFR+NN)/5,
+         `Predicted Rank`=rank(Average, ties.method = "min"))
+s11.results %>% 
+  arrange(Average) %>% 
+  select(-filename) %>% 
+  knitr::kable()
+```
+
+```{r}
+s11.score<-compareRanks(s11.results$Place, s11.results[["Predicted Rank"]])
+```
+
+Rank Score: `r round(s11.score, digits = 3)`
+
+
+```{r s11-results, fig.width=10, fig.height=10, fig.retina=4, warning=FALSE, message=FALSE}
+df<-s11.results %>% 
+  mutate(filename=paste0("../queens/",filename,".jpg")) %>% 
+  gather(model,rank,Place:`Predicted Rank`) %>% 
+  filter(model!="Average") %>% 
+  mutate(model=factor(model, levels = c("Place", "SVM", "GNB", "RFC", "RFR", "NN", "Predicted Rank")),
+         x=as.numeric(model),
+         y=16-rank)
+labels<-df %>% 
+  filter(model=="Predicted Rank") %>% 
+  mutate(x=8)
+for(i in unique(df$model) ) {
+  places<-list()
+  for( n in unique(df$Name) ) {
+    temp<-df %>% filter(Name==n&model==i)
+    this.rank<-as.character(temp$rank)
+    if( !is.na(this.rank) ) {
+      if( this.rank %in% names(places) ) {
+        places[[this.rank]]<-places[[this.rank]]+1
+      } else {
+        places[[this.rank]]<-1
+      }
+      new.xy<-setXY(temp$x,temp$y,places[[this.rank]])
+      df$x[df$Name==n&df$model==i]<-new.xy[1]
+      df$y[df$Name==n&df$model==i]<-new.xy[2]
+    }
+  }
+}
+df %>% 
+  ggplot(aes(x=x, y=y)) +
+  geom_image(aes(image=filename)) +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major.y = element_line(color=season.colors),
+        axis.text.y = element_text(color="black", size=12),
+        axis.ticks.y = element_line(color=season.colors)) +
+  scale_x_continuous(name=NULL, breaks=c(1:7), 
+                     labels=c("Actual Place", "SVM", "GNB", "RFC", "RFR", "NN", "Predicted Place")) +
+  scale_y_continuous(name="Place", breaks=c(1:15), labels=c(15:1)) +
+  labs(title="RuPaul's Drag Race Season 11")
+ggsave("season11_results.png", width=10, height=10, dpi=400)
+```
+
