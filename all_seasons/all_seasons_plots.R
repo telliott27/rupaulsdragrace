@@ -90,6 +90,9 @@ seasons.df %>%
 ggsave(here("all_seasons", "drag_race_seasons_long.png"),
        width = 8, height=24, units = "in", dpi = 300)
 
+ggsave(here("all_seasons", "drag_race_seasons_long_condensed.png"),
+       width = 8, height=12, units = "in", dpi = 300)
+
 seasons.df %>% 
   mutate(year = year(first.air.date)) %>% 
   count(year) %>% 
