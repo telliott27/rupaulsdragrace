@@ -28,7 +28,7 @@ ggplot(data = seasons.df) +
   geom_rect(aes(xmin = first.air.date, xmax = last.air.date, ymin = order-0.5, ymax = order+0.5),
             fill = "#f892f7", color = "black") +
   geom_text(aes(x = first.air.date, y = order, label = label), color = "#80d4d4", hjust = 1, 
-            nudge_x = -10, size = 3) +
+            nudge_x = -10, size = 24, size.unit = "pt") +
   scale_y_reverse() +
   scale_x_date(breaks = seq(ymd("2009-01-01"), today(), by = "6 month"),
                date_labels = "%b '%y") +
@@ -40,12 +40,12 @@ ggplot(data = seasons.df) +
   expand_limits(x = ymd("2008-06-01")) +
   theme(
     axis.text.y = element_blank(),
-    axis.text.x = element_text(color = "white"),
+    axis.text.x = element_text(color = "white", size = 24),
     axis.ticks = element_blank(),
     panel.grid = element_blank(),
     panel.background = element_rect(fill = "black"),
     plot.background = element_rect(fill = "black"),
-    plot.title = element_textbox_simple(size=17, halign=0.5)
+    plot.title = element_textbox_simple(size=48, halign=0.5)
   )
 
 ggsave(here("all_seasons/drag_race_seasons.png"), 
@@ -66,7 +66,7 @@ seasons.df %>%
             fill = pink, color = "black") +
   geom_text(aes(y = label_date, x = order, label = label), color = "#80d4d4", 
             hjust = 0, vjust = 1,
-            size = 3, nudge_x = 0.75) +
+            size = 24, size.unit = "pt", nudge_x = 0.75) +
   scale_y_continuous(
     trans = c("date", "reverse2"),
     breaks = seq(ymd("2009-01-01"), today(), by = "6 months"),
@@ -80,15 +80,15 @@ seasons.df %>%
   expand_limits(x = 60) +
   theme(
     axis.text.x = element_blank(),
-    axis.text.y = element_text(color = "white"),
+    axis.text.y = element_text(color = "white", size = 24),
     axis.ticks = element_blank(),
     panel.grid = element_blank(),
     panel.background = element_rect(fill = "black"),
     plot.background = element_rect(fill = "black"),
-    plot.title = element_textbox_simple(size=17, halign=0.5)
+    plot.title = element_textbox_simple(size=48, halign=0.5)
   )
 ggsave(here("all_seasons", "drag_race_seasons_long.png"),
-       width = 8, height=24, units = "in")
+       width = 8, height=24, units = "in", dpi = 300)
 
 seasons.df %>% 
   mutate(year = year(first.air.date)) %>% 
@@ -96,8 +96,8 @@ seasons.df %>%
   ggplot(aes(x = year, y = n)) +
   geom_col(fill = pink) +
   geom_text(aes(x = year, y = 0.1, label = n), color = "black",
-            vjust = 0, fontface = "bold") +
-  scale_x_continuous(breaks = seq(2009,2022, by = 1)) +
+            vjust = 0, fontface = "bold", size = 24, size.unit = "pt") +
+  scale_x_continuous(breaks = seq(2009,2024, by = 1)) +
   labs(
     title = "Number of Drag Race Seasons Aired Per Year",
     x = NULL,
@@ -107,12 +107,12 @@ seasons.df %>%
     panel.grid = element_blank(),
     panel.background = element_rect(fill = "black"),
     plot.background = element_rect(fill = "black"),
-    plot.title = element_text(color = teal, face = "bold"),
-    axis.text.x = element_text(color = "white")
+    plot.title = element_text(color = teal, face = "bold", size = 48),
+    axis.text.x = element_text(color = "white", size = 24)
   )
 
 ggsave(here("all_seasons/seasons_per_year.png"), width = 8, height = 6, units = "in",
-       dpi = 400)
+       dpi = 300)
 
 
 seasons.df %>% 
